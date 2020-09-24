@@ -1,0 +1,28 @@
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+html {
+    font-family: sans-serif;
+    box-sizing: border-box;
+    font-size: 62.5%;
+}
+
+.chat__item {
+    font-size: 1.6rem;
+}
+
+.chat__user,
+.chat__user--me {
+    font-weight: bold;
+    margin-right: 1rem;
+    color: navy;
+}
+
+.chat__user--me {
+    color: grey;
+}
