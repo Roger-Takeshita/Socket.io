@@ -32,7 +32,10 @@ io.on('connection', (socket) => {
             .to(user.roomId)
             .emit(
                 'message',
-                generateMessage(user.username, `${user.username} has joined`)
+                generateMessage(
+                    user.username,
+                    `${user.username} has joined the room`
+                )
             );
         io.to(user.roomId).emit('roomData', {
             roomId: user.roomId,
@@ -55,7 +58,7 @@ io.on('connection', (socket) => {
         if (user) {
             console.log(`${user.username} has let the room`);
             io.to(user.roomId).emit(
-                'message',
+                'disconnect',
                 generateMessage(
                     user.username,
                     `${user.username} has left the room`
