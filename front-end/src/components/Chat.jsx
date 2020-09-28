@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { socket } from '../utils/socket';
+import Message from './Message';
 import SupportImg from '../assets/images/telemarketer.png';
 
 function Chat() {
@@ -62,11 +63,13 @@ function Chat() {
         connect();
     }, []);
 
-    const handleChange = (e) => {
+    const handleEnter = (e) => {
         if (e.charCode === 13) {
-            inputRef.current.focus();
-            e.preventDefault();
+            handleClick(e);
         }
+    };
+
+    const handleChange = (e) => {
         setMessage(e.target.value);
     };
 
@@ -102,19 +105,17 @@ function Chat() {
                     {messages.map((msg, key) => {
                         return (
                             <li key={key} className="chat__item">
-                                {msg.username !== '' && (
-                                    <span
-                                        className={
-                                            msg.username.toLowerCase() ===
-                                            usernameRef.current.toLowerCase()
-                                                ? 'chat__user--me'
-                                                : 'chat__user'
-                                        }
-                                    >
-                                        {msg.username}
-                                    </span>
-                                )}
-                                {msg.message}
+                                <Message
+                                    imageUrl={SupportImg}
+                                    name={msg.username}
+                                    position={
+                                        msg.username.toLowerCase() ===
+                                        usernameRef.current.toLowerCase()
+                                            ? ''
+                                            : 'right'
+                                    }
+                                    msg={msg.message}
+                                />
                             </li>
                         );
                     })}
@@ -125,6 +126,7 @@ function Chat() {
                     <textarea
                         ref={inputRef}
                         name="message"
+                        onKeyPress={handleEnter}
                         onChange={handleChange}
                         value={message}
                         rows={4}

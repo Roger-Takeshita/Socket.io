@@ -28,12 +28,12 @@
         padding: 1rem;
     }
     &__support-img-container {
+        grid-row: 1 / -1;
+        grid-column: 1 / span 1;
         height: 4rem;
         width: 4rem;
         border-radius: 50%;
         overflow: hidden;
-        grid-row: 1 / -1;
-        grid-column: 1 / span 1;
         position: relative;
     }
     &__support-img {
@@ -55,7 +55,7 @@
     &__support-job {
         padding-left: 1rem;
         display: flex;
-        align-items: center;
+        align-items: flex-end;
         color: grey;
         font-size: 1.2rem;
     }
@@ -68,15 +68,6 @@
     &__item {
         font-size: 1.6rem;
         list-style: none;
-    }
-    &__user {
-        font-weight: bold;
-        margin-right: 1rem;
-        color: navy;
-
-        &--me {
-            color: black;
-        }
     }
     &__form {
         height: 12rem;
@@ -102,5 +93,67 @@
         border-radius: 0.5rem;
         border: none;
         font-size: $default-font-size;
+    }
+}
+
+.message {
+    display: grid;
+    grid-template-rows: min-content 1fr;
+    grid-template-columns: min-content 1fr;
+    padding: 1rem 2rem;
+
+    &--right {
+        grid-template-rows: 1fr min-content;
+        grid-template-columns: 1fr min-content;
+    }
+    &__img-container {
+        grid-row: 2 / -1;
+        grid-column: 1 / 2;
+        height: 4rem;
+        width: 4rem;
+        border-radius: 50%;
+        overflow: hidden;
+        position: relative;
+        align-self: flex-end;
+
+        &--right {
+            grid-column: 2 / -1;
+        }
+    }
+    &__img {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: lightgrey;
+    }
+    &__name {
+        grid-row: 1 / 2;
+        grid-column: 2 / -1;
+        font-size: $default-font-size;
+        color: grey;
+        padding-left: 1rem;
+
+        &--right {
+            grid-column: 1 / 2;
+            text-align: end;
+            padding-left: 0;
+            padding-right: 1rem;
+        }
+    }
+    &__msg {
+        grid-row: 2 / -1;
+        grid-column: 2 / -1;
+        font-size: $default-font-size;
+        background-color: lightgrey;
+        border-radius: 1rem;
+        padding: 1rem;
+        margin: 1rem 1rem 0 1rem;
+
+        &--right {
+            grid-column: 1 / 2;
+        }
     }
 }
