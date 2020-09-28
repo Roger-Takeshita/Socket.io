@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { socket } from '../utils/socket';
+import SupportImg from '../assets/images/telemarketer.png';
 
 function Chat() {
     const [message, setMessage] = useState('');
@@ -32,6 +33,11 @@ function Chat() {
                 }
             );
 
+            socket.on('welcome-msg', (msg) => {
+                console.log(msg.message, msg.username);
+                setMessages((oldMsgs) => [...oldMsgs, msg]);
+            });
+
             socket.on('message', (msg) => {
                 console.log(
                     new Date(msg.createdAt).toLocaleDateString(
@@ -44,31 +50,12 @@ function Chat() {
                 setMessages((oldMsgs) => [...oldMsgs, msg]);
             });
 
-            socket.on('user-connected', (msg) => {
-                console.log(
-                    'User connected: ',
-                    new Date(msg.createdAt).toLocaleDateString(
-                        'en-US',
-                        dateOptions
-                    ),
-                    msg.username,
-                    msg.message
-                );
+            socket.on('user-disconnected', (msg) => {
+                console.log(msg.username, msg.message);
                 setMessages((oldMsgs) => [...oldMsgs, msg]);
             });
 
-            socket.on('disconnect', (msg) => {
-                console.log(
-                    new Date(msg.createdAt).toLocaleDateString(
-                        'en-US',
-                        dateOptions
-                    ),
-                    msg.message
-                );
-                setMessages((oldMsgs) => [...oldMsgs, msg]);
-            });
-
-            socket.on('roomData', ({ users }) => {
+            socket.on('update-users', ({ users }) => {
                 setUsers(users);
             });
         }
@@ -97,23 +84,36 @@ function Chat() {
     return (
         <div className="chat">
             <div className="chat__header">
-                <h1>Chat</h1>
+                <h1 className="chat__header-text">Support</h1>
+            </div>
+            <div className="chat__support">
+                <div className="chat__support-img-container">
+                    <img
+                        className="chat__support-img"
+                        src={SupportImg}
+                        alt="support"
+                    />
+                </div>
+                <p className="chat__support-name">Carlos da Silva Sauro</p>
+                <p className="chat__support-job">Call Center</p>
             </div>
             <div className="chat__body">
                 <ul className="chat__list">
                     {messages.map((msg, key) => {
                         return (
                             <li key={key} className="chat__item">
-                                <span
-                                    className={
-                                        msg.username.toLowerCase() ===
-                                        usernameRef.current.toLowerCase()
-                                            ? 'chat__user--me'
-                                            : 'chat__user'
-                                    }
-                                >
-                                    {msg.username}
-                                </span>
+                                {msg.username !== '' && (
+                                    <span
+                                        className={
+                                            msg.username.toLowerCase() ===
+                                            usernameRef.current.toLowerCase()
+                                                ? 'chat__user--me'
+                                                : 'chat__user'
+                                        }
+                                    >
+                                        {msg.username}
+                                    </span>
+                                )}
                                 {msg.message}
                             </li>
                         );
@@ -121,12 +121,14 @@ function Chat() {
                 </ul>
             </div>
             <div className="chat__cta">
-                <form onSubmit={handleClick} className="chat__cta">
-                    <input
+                <form onSubmit={handleClick} className="chat__form">
+                    <textarea
                         ref={inputRef}
                         name="message"
                         onChange={handleChange}
                         value={message}
+                        rows={4}
+                        placeholder="Type your message here..."
                         type="text"
                         className="chat__input"
                     />

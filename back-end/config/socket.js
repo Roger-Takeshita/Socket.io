@@ -18,19 +18,16 @@ io.on('connection', (socket) => {
         if (error) return callback(error);
         socket.join(user.roomId);
         socket.emit(
-            'message',
-            generateMessage(user.username, `Welcome ${user.username}`)
+            'welcome-msg',
+            generateMessage('', `Welcome ${user.username}!`)
         );
         socket.broadcast
             .to(user.roomId)
             .emit(
                 'message',
-                generateMessage(
-                    user.username,
-                    `${user.username} has joined the room`
-                )
+                generateMessage(user.username, `has joined the room`)
             );
-        io.to(user.roomId).emit('roomData', {
+        io.to(user.roomId).emit('update-users', {
             roomId: user.roomId,
             users: getUsersInRoom(user.roomId),
         });
@@ -51,13 +48,10 @@ io.on('connection', (socket) => {
         if (user) {
             console.log(`${user.username} has let the room`);
             io.to(user.roomId).emit(
-                'disconnect',
-                generateMessage(
-                    user.username,
-                    `${user.username} has left the room`
-                )
+                'user-disconnected',
+                generateMessage(user.username, `has left the room`)
             );
-            io.to(user.roomId).emit('roomData', {
+            io.to(user.roomId).emit('update-users', {
                 roomId: user.roomId,
                 users: getUsersInRoom(user.roomId),
             });

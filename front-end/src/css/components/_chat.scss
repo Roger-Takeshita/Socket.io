@@ -1,0 +1,106 @@
+.chat {
+    display: flex;
+    flex-direction: column;
+    width: 50rem;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 1rem 2rem rgba($color-black, 0.5);
+
+    &__header {
+        height: 5rem;
+        background-color: lightsteelblue;
+        display: flex;
+        justify-content: center;
+        z-index: 1;
+    }
+    &__header-text {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+    &__support {
+        height: 6rem;
+        box-shadow: 0 0.2rem 1rem rgba($color-black, 0.5);
+        display: grid;
+        grid-template-rows: 1fr 1fr;
+        grid-template-columns: min-content 1fr;
+        padding: 1rem;
+    }
+    &__support-img-container {
+        height: 4rem;
+        width: 4rem;
+        border-radius: 50%;
+        overflow: hidden;
+        grid-row: 1 / -1;
+        grid-column: 1 / span 1;
+        position: relative;
+    }
+    &__support-img {
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: lightgrey;
+    }
+    &__support-name {
+        grid-column: 2 / -1;
+        padding-left: 1rem;
+        display: flex;
+        align-items: center;
+        font-size: $default-font-size;
+    }
+    &__support-job {
+        padding-left: 1rem;
+        display: flex;
+        align-items: center;
+        color: grey;
+        font-size: 1.2rem;
+    }
+    &__body {
+        min-height: 50rem;
+        height: 100%;
+        padding: 2rem 1rem 1rem 1rem;
+        word-wrap: break-word;
+    }
+    &__item {
+        font-size: 1.6rem;
+        list-style: none;
+    }
+    &__user {
+        font-weight: bold;
+        margin-right: 1rem;
+        color: navy;
+
+        &--me {
+            color: black;
+        }
+    }
+    &__form {
+        height: 12rem;
+        display: flex;
+        flex-grow: 1;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem 1rem;
+    }
+    &__input {
+        flex-grow: 1;
+        height: 100%;
+        border-radius: 0.5rem;
+        font-size: 2rem;
+        resize: none;
+        padding: 1rem;
+        border: 1 solid lightgrey;
+    }
+    &__btn {
+        width: 7rem;
+        height: 100%;
+        margin-left: 0.9rem;
+        border-radius: 0.5rem;
+        border: none;
+        font-size: $default-font-size;
+    }
+}
