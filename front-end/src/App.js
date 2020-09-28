@@ -3,8 +3,8 @@ import Chat from './components/Chat';
 
 function App() {
     return (
-        <div>
-            <h1>App</h1>
+        <div className="App">
+            <h1>Chat With Socket.io</h1>
             <Chat />
         </div>
     );

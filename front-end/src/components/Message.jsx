@@ -7,27 +7,39 @@ function Message({ imageUrl, name, msg, position }) {
                 position === 'right' ? 'message message--right' : 'message'
             }
         >
-            <div
-                className={
-                    position === 'right'
-                        ? 'message__img-container message__img-container--right'
-                        : 'message__img-container'
-                }
-            >
-                <img src={imageUrl} alt="Image" className="message__img" />
-            </div>
+            {position === 'general' ? (
+                ''
+            ) : (
+                <>
+                    <div
+                        className={
+                            position === 'right'
+                                ? 'message__img-container message__img-container--right'
+                                : 'message__img-container'
+                        }
+                    >
+                        <img
+                            src={imageUrl}
+                            alt="Image"
+                            className="message__img"
+                        />
+                    </div>
+                    <span
+                        className={
+                            position === 'right'
+                                ? 'message__name message__name--right'
+                                : 'message__name'
+                        }
+                    >
+                        {name}
+                    </span>
+                </>
+            )}
             <span
                 className={
-                    position === 'right'
-                        ? 'message__name message__name--right'
-                        : 'message__name'
-                }
-            >
-                {name}
-            </span>
-            <span
-                className={
-                    position === 'right'
+                    position === 'general'
+                        ? 'message__msg message__msg--general'
+                        : position === 'right'
                         ? 'message__msg message__msg--right'
                         : 'message__msg'
                 }

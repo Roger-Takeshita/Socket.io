@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { socket } from '../utils/socket';
 import Message from './Message';
 import SupportImg from '../assets/images/telemarketer.png';
+import ManImg from '../assets/images/man.png';
+import WomanImg from '../assets/images/woman.png';
 
 function Chat() {
     const [message, setMessage] = useState('');
@@ -106,13 +108,20 @@ function Chat() {
                         return (
                             <li key={key} className="chat__item">
                                 <Message
-                                    imageUrl={SupportImg}
-                                    name={msg.username}
-                                    position={
+                                    imageUrl={
                                         msg.username.toLowerCase() ===
                                         usernameRef.current.toLowerCase()
-                                            ? ''
-                                            : 'right'
+                                            ? ManImg
+                                            : SupportImg
+                                    }
+                                    name={msg.username}
+                                    position={
+                                        msg.username === ''
+                                            ? 'general'
+                                            : msg.username.toLowerCase() ===
+                                              usernameRef.current.toLowerCase()
+                                            ? 'right'
+                                            : ''
                                     }
                                     msg={msg.message}
                                 />
