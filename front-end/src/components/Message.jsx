@@ -20,7 +20,7 @@ function Message({ imageUrl, name, msg, position }) {
                     >
                         <img
                             src={imageUrl}
-                            alt="Image"
+                            alt="User Img"
                             className="message__img"
                         />
                     </div>

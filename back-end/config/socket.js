@@ -11,35 +11,32 @@ io.on('connection', (socket) => {
     console.log();
     console.log('New Connection', socket.id);
 
-    socket.on('join', ({ username, roomId }, callback) => {
-        console.log(`${username} has joined the ${roomId} room - ${socket.id}`);
-        const { error, user } = addUser({ id: socket.id, username, roomId });
+    socket.on('join', ({ user, roomId }, callback) => {
+        console.log(
+            `${user.username} has joined the ${roomId} room - ${socket.id}`
+        );
+        const { error, newUser } = addUser({ id: socket.id, user, roomId });
 
         if (error) return callback(error);
-        socket.join(user.roomId);
+        socket.join(newUser.roomId);
         socket.emit(
             'welcome-msg',
-            generateMessage('', `Welcome ${user.username}!`)
+            generateMessage('', `Welcome ${newUser.username}`)
         );
         socket.broadcast
-            .to(user.roomId)
-            .emit(
-                'message',
-                generateMessage(user.username, `has joined the room`)
-            );
-        io.to(user.roomId).emit('update-users', {
-            roomId: user.roomId,
-            users: getUsersInRoom(user.roomId),
+            .to(newUser.roomId)
+            .emit('message', generateMessage(newUser, `has joined the room`));
+        io.to(newUser.roomId).emit('update-users', {
+            roomId: newUser.roomId,
+            users: getUsersInRoom(newUser.roomId),
+            status: 'connected',
         });
         callback();
     });
 
     socket.on('sendMessage', ({ message }, callback) => {
         const user = getUser(socket.id);
-        io.to(user.roomId).emit(
-            'message',
-            generateMessage(user.username, message)
-        );
+        io.to(user.roomId).emit('message', generateMessage(user, message));
         callback();
     });
 
@@ -49,11 +46,12 @@ io.on('connection', (socket) => {
             console.log(`${user.username} has let the room`);
             io.to(user.roomId).emit(
                 'user-disconnected',
-                generateMessage(user.username, `has left the room`)
+                generateMessage(user, `has left the room`)
             );
             io.to(user.roomId).emit('update-users', {
                 roomId: user.roomId,
                 users: getUsersInRoom(user.roomId),
+                status: 'disconnected',
             });
         }
     });
