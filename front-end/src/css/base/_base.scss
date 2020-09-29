@@ -29,9 +29,6 @@ body,
     & > :first-child {
         font-size: 4rem;
         text-transform: uppercase;
-    }
-
-    &:last-child {
-        justify-content: space-around;
+        margin: 5rem;
     }
 }

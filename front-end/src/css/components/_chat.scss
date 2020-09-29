@@ -6,9 +6,13 @@
     overflow: hidden;
     box-shadow: 0 1rem 2rem rgba($color-black, 0.5);
     background-color: $color-white;
+    position: relative;
+    transition: 0.2s all;
 
+    &--open {
+        width: 20rem;
+    }
     &__header {
-        background-color: $color-blue;
         text-transform: uppercase;
         color: $color-white;
         display: flex;
@@ -22,6 +26,7 @@
         padding: 1.5rem 0;
         height: 100%;
         z-index: 2;
+        background-color: $color-blue;
     }
     &__support {
         height: 6rem;
@@ -72,6 +77,11 @@
         word-wrap: break-word;
         overflow-y: auto;
         scroll-behavior: smooth;
+
+        // &--open {
+        //     visibility: hidden;
+        //     width: 0;
+        // }
     }
     &__item {
         font-size: 1.6rem;
@@ -83,7 +93,7 @@
         flex-grow: 1;
         justify-content: center;
         align-items: center;
-        padding: 2rem 1rem;
+        padding: 1rem;
     }
     &__input {
         flex-grow: 1;
@@ -111,6 +121,21 @@
         &:hover {
             background-color: $color-grey-3;
             color: black;
+        }
+    }
+    &__btn-show {
+        position: absolute;
+        top: 2.2rem;
+        right: 1.5rem;
+        z-index: 3;
+        font-size: 8rem;
+        line-height: 0;
+        font-weight: 300;
+        cursor: pointer;
+
+        &--open {
+            font-size: 4.5rem;
+            font-weight: 500;
         }
     }
 }

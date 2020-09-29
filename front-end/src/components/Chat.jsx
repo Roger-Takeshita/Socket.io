@@ -10,6 +10,7 @@ import SmsSound from '../assets/sounds/sms.mp3';
 function Chat() {
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
+    const [open, setOpen] = useState(true);
     const [users, setUsers] = useState([]);
     const [error, setError] = useState('');
     const inputRef = useRef();
@@ -136,68 +137,90 @@ function Chat() {
         inputRef.current.focus();
     };
 
+    const handleMinimize = () => {
+        setOpen((oldState) => !oldState);
+    };
+
     return (
-        <div className="chat">
+        <div className={open ? 'chat' : 'chat chat--open'}>
             <div className="chat__header">
-                <h1 className="chat__header-text">Support</h1>
-                <div className="chat__support">
-                    <div className="chat__support-img-container">
-                        <img
-                            className="chat__support-img"
-                            src={SupportImg}
-                            alt="support"
-                        />
-                    </div>
-                    <p className="chat__support-name">Carlos da Silva Sauro</p>
-                    <p className="chat__support-title">Call Center</p>
+                <div
+                    onClick={handleMinimize}
+                    className={
+                        open
+                            ? 'chat__btn-show'
+                            : 'chat__btn-show chat__btn-show--open'
+                    }
+                >
+                    {open ? '-' : '+'}
                 </div>
+                <h1 className="chat__header-text">Support</h1>
+                {open && (
+                    <div className="chat__support">
+                        <div className="chat__support-img-container">
+                            <img
+                                className="chat__support-img"
+                                src={SupportImg}
+                                alt="support"
+                            />
+                        </div>
+                        <p className="chat__support-name">
+                            Carlos da Silva Sauro
+                        </p>
+                        <p className="chat__support-title">Call Center</p>
+                    </div>
+                )}
             </div>
-            <div className="chat__body">
-                <ul className="chat__list">
-                    {messages.map((msg, key) => {
-                        return (
-                            <li key={key} className="chat__item">
-                                <Message
-                                    imageUrl={
-                                        msg.avatar === 'Woman'
-                                            ? WomanImg
-                                            : ManImg
-                                    }
-                                    name={msg.username}
-                                    position={
-                                        msg.username === undefined
-                                            ? 'general'
-                                            : msg.username.toLowerCase() ===
-                                              userRef.current.username.toLowerCase()
-                                            ? 'right'
-                                            : ''
-                                    }
-                                    msg={msg.message}
-                                />
-                            </li>
-                        );
-                    })}
-                </ul>
-                <div ref={bottomChatRef}></div>
-            </div>
-            <div className="chat__cta">
-                <form onSubmit={handleClick} className="chat__form">
-                    <textarea
-                        ref={inputRef}
-                        name="message"
-                        onKeyPress={handleEnter}
-                        onChange={handleChange}
-                        value={message}
-                        rows={4}
-                        data-gramm="false"
-                        placeholder="Type your message here..."
-                        type="text"
-                        className="chat__input"
-                        required
-                    />
-                    <button className="chat__btn">Send</button>
-                </form>
-            </div>
+            {open && (
+                <>
+                    <div className="chat__body">
+                        <ul className="chat__list">
+                            {messages.map((msg, key) => {
+                                return (
+                                    <li key={key} className="chat__item">
+                                        <Message
+                                            imageUrl={
+                                                msg.avatar === 'Woman'
+                                                    ? WomanImg
+                                                    : ManImg
+                                            }
+                                            name={msg.username}
+                                            position={
+                                                msg.username === undefined
+                                                    ? 'general'
+                                                    : msg.username.toLowerCase() ===
+                                                      userRef.current.username.toLowerCase()
+                                                    ? 'right'
+                                                    : ''
+                                            }
+                                            msg={msg.message}
+                                        />
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                        <div ref={bottomChatRef}></div>
+                    </div>
+                    <div className="chat__cta">
+                        <form onSubmit={handleClick} className="chat__form">
+                            <textarea
+                                ref={inputRef}
+                                name="message"
+                                onKeyPress={handleEnter}
+                                onChange={handleChange}
+                                value={message}
+                                rows={4}
+                                data-gramm="false"
+                                placeholder="Type your message here..."
+                                type="text"
+                                className="chat__input"
+                                required
+                            />
+                            <button className="chat__btn">Send</button>
+                        </form>
+                    </div>
+                </>
+            )}
         </div>
     );
 }

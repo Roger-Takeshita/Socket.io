@@ -39,11 +39,7 @@ body,
 .App > :first-child {
   font-size: 4rem;
   text-transform: uppercase;
-}
-
-.App:last-child {
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
+  margin: 5rem;
 }
 
 .chat {
@@ -60,10 +56,16 @@ body,
   -webkit-box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.5);
           box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.5);
   background-color: #fff;
+  position: relative;
+  -webkit-transition: 0.2s all;
+  transition: 0.2s all;
+}
+
+.chat--open {
+  width: 20rem;
 }
 
 .chat__header {
-  background-color: #7da4d8;
   text-transform: uppercase;
   color: #fff;
   display: -webkit-box;
@@ -91,6 +93,7 @@ body,
   padding: 1.5rem 0;
   height: 100%;
   z-index: 2;
+  background-color: #7da4d8;
 }
 
 .chat__support {
@@ -184,7 +187,7 @@ body,
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  padding: 2rem 1rem;
+  padding: 1rem;
 }
 
 .chat__input {
@@ -218,6 +221,22 @@ body,
 .chat__btn:hover {
   background-color: #d9d9d9;
   color: black;
+}
+
+.chat__btn-show {
+  position: absolute;
+  top: 2.2rem;
+  right: 1.5rem;
+  z-index: 3;
+  font-size: 8rem;
+  line-height: 0;
+  font-weight: 300;
+  cursor: pointer;
+}
+
+.chat__btn-show--open {
+  font-size: 4.5rem;
+  font-weight: 500;
 }
 
 .message {
