@@ -46,6 +46,22 @@ body,
   margin: 5rem;
 }
 
+.wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.chat-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
 .chat {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -361,4 +377,25 @@ body,
   max-width: 100%;
   margin: 0;
   text-transform: capitalize;
+}
+
+.users {
+  margin-left: 1.5rem;
+}
+
+.users__list-container {
+  margin-top: 0.5rem;
+}
+
+.users__list {
+  list-style-type: none;
+}
+
+.users__item::before {
+  content: '- ';
+}
+
+.error {
+  margin-top: 2.5rem;
+  color: red;
 }

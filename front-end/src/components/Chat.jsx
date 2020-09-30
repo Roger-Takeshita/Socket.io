@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { socket } from '../utils/socket';
 import Message from './Message';
+import Users from './Users';
 import SupportImg from '../assets/images/telemarketer.png';
 import ManImg from '../assets/images/man.png';
 import WomanImg from '../assets/images/woman.png';
@@ -122,6 +123,12 @@ function Chat() {
         bottomChatRef.current.scrollIntoView({ block: 'end' });
     }, [messages]);
 
+    useEffect(() => {
+        setTimeout(() => {
+            setError('');
+        }, 5000);
+    }, [error]);
+
     const handleEnter = (e) => {
         if (e.charCode === 13) handleClick(e);
     };
@@ -143,99 +150,115 @@ function Chat() {
     };
 
     return (
-        <div className={open ? 'chat' : 'chat chat--open'}>
-            <div className="chat__header">
-                <div
-                    onClick={handleMinimize}
-                    className={
-                        open
-                            ? 'chat__btn-show'
-                            : 'chat__btn-show chat__btn-show--open'
-                    }
-                >
-                    {open ? (
-                        '-'
-                    ) : (
-                        <img
-                            src={ChatSVG}
-                            alt="Chat SVG"
-                            className="chat__logo"
-                        />
+        <div className="wrapper">
+            <div className="chat-container">
+                <div className={open ? 'chat' : 'chat chat--open'}>
+                    <div className="chat__header">
+                        <div
+                            onClick={handleMinimize}
+                            className={
+                                open
+                                    ? 'chat__btn-show'
+                                    : 'chat__btn-show chat__btn-show--open'
+                            }
+                        >
+                            {open ? (
+                                '-'
+                            ) : (
+                                <img
+                                    src={ChatSVG}
+                                    alt="Chat SVG"
+                                    className="chat__logo"
+                                />
+                            )}
+                        </div>
+                        <h2
+                            className={
+                                open
+                                    ? 'chat__header-text'
+                                    : 'chat__header-text chat__header-text--open'
+                            }
+                        >
+                            Support
+                        </h2>
+                        {open && (
+                            <div className="chat__support">
+                                <div className="chat__support-img-container">
+                                    <img
+                                        className="chat__support-img"
+                                        src={SupportImg}
+                                        alt="support"
+                                    />
+                                </div>
+                                <p className="chat__support-name">
+                                    Roger Takeshita
+                                </p>
+                                <p className="chat__support-title">
+                                    Full-Stack Dev
+                                </p>
+                            </div>
+                        )}
+                    </div>
+                    {open && (
+                        <>
+                            <div className="chat__body">
+                                <ul className="chat__list">
+                                    {messages.map((msg, key) => {
+                                        return (
+                                            <li
+                                                key={key}
+                                                className="chat__item"
+                                            >
+                                                <Message
+                                                    imageUrl={
+                                                        msg.avatar === 'Woman'
+                                                            ? WomanImg
+                                                            : ManImg
+                                                    }
+                                                    name={msg.username}
+                                                    position={
+                                                        !msg.username
+                                                            ? 'general'
+                                                            : msg.username.toLowerCase() ===
+                                                              userRef.current.username.toLowerCase()
+                                                            ? 'right'
+                                                            : ''
+                                                    }
+                                                    msg={msg.message}
+                                                />
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                                <div ref={bottomChatRef}></div>
+                            </div>
+                            <div className="chat__cta">
+                                <form
+                                    onSubmit={handleClick}
+                                    className="chat__form"
+                                >
+                                    <textarea
+                                        ref={inputRef}
+                                        name="message"
+                                        onKeyPress={handleEnter}
+                                        onChange={handleChange}
+                                        value={message}
+                                        rows={4}
+                                        data-gramm="false"
+                                        placeholder="Type your message here..."
+                                        type="text"
+                                        className="chat__input"
+                                        required
+                                    />
+                                    <button className="chat__btn">Send</button>
+                                </form>
+                            </div>
+                        </>
                     )}
                 </div>
-                <h2
-                    className={
-                        open
-                            ? 'chat__header-text'
-                            : 'chat__header-text chat__header-text--open'
-                    }
-                >
-                    Support
-                </h2>
-                {open && (
-                    <div className="chat__support">
-                        <div className="chat__support-img-container">
-                            <img
-                                className="chat__support-img"
-                                src={SupportImg}
-                                alt="support"
-                            />
-                        </div>
-                        <p className="chat__support-name">Roger Takeshita</p>
-                        <p className="chat__support-title">Full-Stack Dev</p>
-                    </div>
-                )}
+                {open && <Users users={users} />}
             </div>
-            {open && (
-                <>
-                    <div className="chat__body">
-                        <ul className="chat__list">
-                            {messages.map((msg, key) => {
-                                return (
-                                    <li key={key} className="chat__item">
-                                        <Message
-                                            imageUrl={
-                                                msg.avatar === 'Woman'
-                                                    ? WomanImg
-                                                    : ManImg
-                                            }
-                                            name={msg.username}
-                                            position={
-                                                !msg.username
-                                                    ? 'general'
-                                                    : msg.username.toLowerCase() ===
-                                                      userRef.current.username.toLowerCase()
-                                                    ? 'right'
-                                                    : ''
-                                            }
-                                            msg={msg.message}
-                                        />
-                                    </li>
-                                );
-                            })}
-                        </ul>
-                        <div ref={bottomChatRef}></div>
-                    </div>
-                    <div className="chat__cta">
-                        <form onSubmit={handleClick} className="chat__form">
-                            <textarea
-                                ref={inputRef}
-                                name="message"
-                                onKeyPress={handleEnter}
-                                onChange={handleChange}
-                                value={message}
-                                rows={4}
-                                data-gramm="false"
-                                placeholder="Type your message here..."
-                                type="text"
-                                className="chat__input"
-                                required
-                            />
-                            <button className="chat__btn">Send</button>
-                        </form>
-                    </div>
-                </>
-            )}
+            {error !== '' && <div className="error">{error}</div>}
         </div>
     );
 }

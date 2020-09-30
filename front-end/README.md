@@ -2,10 +2,14 @@
 
 - [STYLED COMPONENTS](#styled-components)
   - [Package](#package)
-  - [Default Theme](#default-theme)
-  - [Create Global Style](#create-global-style)
-  - [Connecting Styled-Components](#connecting-styled-components)
+  - [Config Styled Components](#config-styled-components)
+    - [Default Theme](#default-theme)
+    - [Create Global Style](#create-global-style)
+    - [Connecting Styled-Components](#connecting-styled-components)
   - [Create a Styled-Component](#create-a-styled-component)
+    - [Props Values](#props-values)
+    - [Theme Values](#theme-values)
+  - [Using a Styled Component](#using-a-styled-component)
 
 # STYLED COMPONENTS
 
@@ -17,7 +21,9 @@
   npm i styled-components
 ```
 
-## Default Theme
+## Config Styled Components
+
+### Default Theme
 
 [Go Back to Summary](#summary)
 
@@ -94,7 +100,7 @@
     };
   ```
 
-## Create Global Style
+### Create Global Style
 
 [Go Back to Summary](#summary)
 
@@ -173,7 +179,7 @@
     }`;
   ```
 
-## Connecting Styled-Components
+### Connecting Styled-Components
 
 [Go Back to Summary](#summary)
 
@@ -182,7 +188,7 @@
   - we need to import the **ThemeProvider** from `styled-components`
     - The **ThemeProvider** is responsible for connecting (wrapping) the **DefaultThem** that we created to our **App**
     - We need to pass our **DefaultTheme** to the **theme** property
-  - Inside our **ThemeProvider** we need to import our **GlobalStyle** (our base style)
+  - Inside our **ThemeProvider** wrapper we need to add our **<GlobalStyle />** (our base style) component to reset our css styles
 
   ```JavaScript
     import React from 'react';
@@ -208,8 +214,112 @@
 [Go Back to Summary](#summary)
 
 - in `src/components/Button.style.js`
+
   - We use `.style.js` to create our styled component
   - We need to import **styled** from `styled-components`
-  - Then To create a button we use `styled.button` followed by **` `**. Inside the **` `** we are going to declare all the css properties and media queries for this element
+  - Then To create a button we use `styled.button` followed by **&#96; &#96;**. Inside the **&#96; &#96;** we are going to declare all the css properties and media queries for this element
 
-<GlobalStyle /> --> Reset
+### Props Values
+
+[Go Back to Summary](#summary)
+
+- Accessing incoming **props** values
+
+  ```JavaScript
+    ${(props) => ``
+  ```
+
+  ```JavaScript
+    import styled from 'styled-components';
+    import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+    export const Button = styled.button`
+        ${(props) => `
+            width: ${props.width}rem;
+            height: ${props.height}rem;
+            disabled: ${props.disabled};
+            color: ${props.color};
+            background-color: ${props.bgColor};
+            border-radius: 50%;
+            transition: all 0.1s ease-in-out;
+
+            &:hover {
+                transform: scale(1.01) translateY(-0.3rem);
+            }
+            &:hover > * {
+                color: ${props.hoverColor};
+            }
+            &:active {
+                transform: translateY(-0.1rem);
+            }
+        `};
+    `;
+
+    export const Icon = styled(FontAwesomeIcon)`
+        ${(props) => `
+            font-size: ${props.fontSize}rem;
+            color: ${props.color};
+        `}
+    `;
+  ```
+
+### Theme Values
+
+[Go Back to Summary](#summary)
+
+- Accessing **theme** properties
+
+  ```JavaScript
+    export const NavLink = styled.a`
+        cursor: pointer;
+        ${({ theme }) => `
+            font-size: ${theme.sizes['md']};
+            font-weight: ${theme.fontWeight['bold']}
+            color: ${theme.colors.green['400']};
+            margin: ${theme.sizes['sm']};
+            &:hover {
+                color: ${theme.colors.green['200']};
+            }
+        `}
+    `;
+  ```
+
+## Using a Styled Component
+
+[Go Back to Summary](#summary)
+
+- in `src/components/Button.js`
+
+  - We import our styled components and use them as a normal components
+
+  ```JavaScript
+    import React from 'react';
+    import { Button, Icon } from './ButtonIconComponent.style';
+
+    const ButtonIconComponent = ({
+        fontSize,
+        width,
+        height,
+        disabled,
+        color,
+        bgColor,
+        onClick,
+        hoverColor,
+        iconType,
+    }) => {
+        return (
+            <Button
+                width={width}
+                height={height}
+                disabled={disabled}
+                bgColor={bgColor}
+                onClick={onClick}
+                hoverColor={hoverColor}
+            >
+                <Icon color={color} icon={iconType} fontSize={fontSize}/>
+            </Button>
+        );
+    };
+
+    export default ButtonIconComponent;
+  ```

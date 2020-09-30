@@ -1,3 +1,12 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-container {
+    display: flex;
+}
+
 .chat {
     display: flex;
     flex-direction: column;
@@ -225,4 +234,25 @@
             text-transform: capitalize;
         }
     }
+}
+
+.users {
+    margin-left: 1.5rem;
+
+    &__list-container {
+        margin-top: 0.5rem;
+    }
+    &__list {
+        list-style-type: none;
+    }
+    &__item {
+        &::before {
+            content: '- ';
+        }
+    }
+}
+
+.error {
+    margin-top: 2.5rem;
+    color: $color-red;
 }
