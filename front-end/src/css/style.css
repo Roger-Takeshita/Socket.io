@@ -20,6 +20,10 @@ body,
 #root {
   height: 100%;
   width: 100%;
+  font-family: sans-serif;
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 1;
 }
 
 .App {
@@ -62,7 +66,8 @@ body,
 }
 
 .chat--open {
-  width: 20rem;
+  height: 5rem;
+  width: 5rem;
 }
 
 .chat__header {
@@ -78,6 +83,8 @@ body,
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  position: relative;
+  background-color: #7da4d8;
 }
 
 .chat__header-text {
@@ -94,6 +101,18 @@ body,
   height: 100%;
   z-index: 2;
   background-color: #7da4d8;
+}
+
+.chat__header-text--open {
+  visibility: hidden;
+}
+
+.chat__logo {
+  position: absolute;
+  top: -1rem;
+  left: -2rem;
+  height: 2.5rem;
+  width: 2.5rem;
 }
 
 .chat__support {
@@ -161,7 +180,8 @@ body,
 }
 
 .chat__body {
-  height: 50rem;
+  height: 40rem;
+  min-height: 40rem;
   padding: 2rem 1rem 1rem 1rem;
   word-wrap: break-word;
   overflow-y: auto;

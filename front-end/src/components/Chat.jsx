@@ -6,6 +6,7 @@ import ManImg from '../assets/images/man.png';
 import WomanImg from '../assets/images/woman.png';
 import UserSound from '../assets/sounds/user.mp3';
 import SmsSound from '../assets/sounds/sms.mp3';
+import ChatSVG from '../assets/images/chat.svg';
 
 function Chat() {
     const [message, setMessage] = useState('');
@@ -19,7 +20,7 @@ function Chat() {
         avatar: Math.floor(Math.random() * 2 + 1) === 2 ? 'Woman' : 'Man',
     });
     const roomIdRef = useRef('main');
-    const bottomChatRef = useRef(null);
+    const bottomChatRef = useRef(0);
 
     useEffect(() => {
         function connect() {
@@ -152,9 +153,25 @@ function Chat() {
                             : 'chat__btn-show chat__btn-show--open'
                     }
                 >
-                    {open ? '-' : '+'}
+                    {open ? (
+                        '-'
+                    ) : (
+                        <img
+                            src={ChatSVG}
+                            alt="Chat SVG"
+                            className="chat__logo"
+                        />
+                    )}
                 </div>
-                <h1 className="chat__header-text">Support</h1>
+                <h2
+                    className={
+                        open
+                            ? 'chat__header-text'
+                            : 'chat__header-text chat__header-text--open'
+                    }
+                >
+                    Support
+                </h2>
                 {open && (
                     <div className="chat__support">
                         <div className="chat__support-img-container">
@@ -164,10 +181,8 @@ function Chat() {
                                 alt="support"
                             />
                         </div>
-                        <p className="chat__support-name">
-                            Carlos da Silva Sauro
-                        </p>
-                        <p className="chat__support-title">Call Center</p>
+                        <p className="chat__support-name">Roger Takeshita</p>
+                        <p className="chat__support-title">Full-Stack Dev</p>
                     </div>
                 )}
             </div>
@@ -186,7 +201,7 @@ function Chat() {
                                             }
                                             name={msg.username}
                                             position={
-                                                msg.username === undefined
+                                                !msg.username
                                                     ? 'general'
                                                     : msg.username.toLowerCase() ===
                                                       userRef.current.username.toLowerCase()
