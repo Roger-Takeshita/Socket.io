@@ -50,16 +50,17 @@ body,
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
 }
 
 .chat-container {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  text-align: center;
 }
 
 .chat {
@@ -99,8 +100,8 @@ body,
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  position: relative;
   background-color: #7da4d8;
+  position: relative;
 }
 
 .chat__header-text {
@@ -123,12 +124,22 @@ body,
   visibility: hidden;
 }
 
-.chat__logo {
-  position: absolute;
-  top: -1rem;
-  left: -2rem;
+.chat__icon {
   height: 2.5rem;
   width: 2.5rem;
+  fill: #d9d9d9;
+  -webkit-transition: 0.2s all ease-in-out;
+  transition: 0.2s all ease-in-out;
+}
+
+.chat__icon:hover {
+  fill: #fff;
+}
+
+.chat__icon:hover:hover {
+  color: #fff;
+  -webkit-transform: scale(1.2);
+          transform: scale(1.2);
 }
 
 .chat__support {
@@ -259,10 +270,10 @@ body,
   color: black;
 }
 
-.chat__btn-show {
+.chat__btn-icon {
   position: absolute;
-  top: 2.2rem;
-  right: 1.5rem;
+  top: 2.3rem;
+  right: 2rem;
   z-index: 3;
   font-size: 8rem;
   line-height: 0;
@@ -270,9 +281,28 @@ body,
   cursor: pointer;
 }
 
-.chat__btn-show--open {
+.chat__btn-icon--open {
   font-size: 4.5rem;
   font-weight: 500;
+  top: 50%;
+  left: 50%;
+  right: 0;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+
+.chat__minimize {
+  width: 2.5rem;
+  height: 0.7rem;
+  background-color: #d9d9d9;
+  -webkit-transition: 0.2s all ease-in-out;
+  transition: 0.2s all ease-in-out;
+}
+
+.chat__minimize:hover {
+  background-color: #fff;
+  -webkit-transform: scale(1.2);
+          transform: scale(1.2);
 }
 
 .message {
@@ -334,6 +364,7 @@ body,
   color: #8c8c8c;
   padding-left: 1rem;
   text-transform: capitalize;
+  text-align: left;
 }
 
 .message__name--right {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { socket } from '../utils/socket';
+import io from 'socket.io-client';
 import Message from './Message';
 import Users from './Users';
 import SupportImg from '../assets/images/telemarketer.png';
@@ -7,7 +7,7 @@ import ManImg from '../assets/images/man.png';
 import WomanImg from '../assets/images/woman.png';
 import UserSound from '../assets/sounds/user.mp3';
 import SmsSound from '../assets/sounds/sms.mp3';
-import ChatSVG from '../assets/images/chat.svg';
+import ChatIcon from './ChatIcon';
 
 function Chat() {
     const [message, setMessage] = useState('');
@@ -22,9 +22,11 @@ function Chat() {
     });
     const roomIdRef = useRef('main');
     const bottomChatRef = useRef(0);
+    const socketRef = useRef(null);
 
     useEffect(() => {
         function connect() {
+            socketRef.current = io('/');
             const dateOptions = {
                 year: 'numeric',
                 month: 'numeric',
@@ -34,7 +36,7 @@ function Chat() {
                 second: 'numeric',
             };
 
-            socket.emit(
+            socketRef.current.emit(
                 'join',
                 {
                     user: userRef.current,
@@ -51,12 +53,12 @@ function Chat() {
                 }
             );
 
-            socket.on('welcome-msg', (msg) => {
+            socketRef.current.on('welcome-msg', (msg) => {
                 console.log(msg.message);
                 setMessages((oldMsgs) => [...oldMsgs, msg]);
             });
 
-            socket.on('message', (msg) => {
+            socketRef.current.on('message', (msg) => {
                 console.log(
                     new Date(msg.createdAt).toLocaleDateString(
                         'en-US',
@@ -86,12 +88,12 @@ function Chat() {
                 setMessages((oldMsgs) => [...oldMsgs, msg]);
             });
 
-            socket.on('user-disconnected', (msg) => {
+            socketRef.current.on('user-disconnected', (msg) => {
                 console.log(msg.username, msg.message);
                 setMessages((oldMsgs) => [...oldMsgs, msg]);
             });
 
-            socket.on('update-users', ({ users, status }) => {
+            socketRef.current.on('update-users', ({ users, status }) => {
                 if (status === 'connected') {
                     const updateUserSound = new Audio(UserSound);
                     const updateUserSoundPromise = updateUserSound.play();
@@ -120,7 +122,7 @@ function Chat() {
     }, []);
 
     useEffect(() => {
-        bottomChatRef.current.scrollIntoView({ block: 'end' });
+        open && bottomChatRef.current.scrollIntoView({ block: 'end' });
     }, [messages]);
 
     useEffect(() => {
@@ -139,14 +141,19 @@ function Chat() {
 
     const handleClick = (e) => {
         e.preventDefault();
-        socket.emit('sendMessage', { message, username: userRef.current }, () =>
-            setMessage('')
+        socketRef.current.emit(
+            'sendMessage',
+            { message, username: userRef.current },
+            () => setMessage('')
         );
         inputRef.current.focus();
     };
 
     const handleMinimize = () => {
         setOpen((oldState) => !oldState);
+        if (open) {
+            bottomChatRef.current.scrollIntoView({ block: 'end' });
+        }
     };
 
     return (
@@ -158,18 +165,14 @@ function Chat() {
                             onClick={handleMinimize}
                             className={
                                 open
-                                    ? 'chat__btn-show'
-                                    : 'chat__btn-show chat__btn-show--open'
+                                    ? 'chat__btn-icon'
+                                    : 'chat__btn-icon chat__btn-icon--open'
                             }
                         >
                             {open ? (
-                                '-'
+                                <div className="chat__minimize"></div>
                             ) : (
-                                <img
-                                    src={ChatSVG}
-                                    alt="Chat SVG"
-                                    className="chat__logo"
-                                />
+                                <ChatIcon className="chat__icon" />
                             )}
                         </div>
                         <h2
@@ -256,9 +259,9 @@ function Chat() {
                         </>
                     )}
                 </div>
-                {open && <Users users={users} />}
+                {open && error !== '' && <div className="error">{error}</div>}
             </div>
-            {error !== '' && <div className="error">{error}</div>}
+            {open && <Users users={users} />}
         </div>
     );
 }

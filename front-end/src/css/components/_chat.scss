@@ -1,10 +1,11 @@
 .wrapper {
     display: flex;
-    flex-direction: column;
 }
 
 .chat-container {
     display: flex;
+    flex-direction: column;
+    text-align: center;
 }
 
 .chat {
@@ -28,8 +29,8 @@
         display: flex;
         justify-content: center;
         flex-direction: column;
-        position: relative;
         background-color: $color-blue;
+        position: relative;
     }
     &__header-text {
         display: flex;
@@ -44,12 +45,20 @@
             visibility: hidden;
         }
     }
-    &__logo {
-        position: absolute;
-        top: -1rem;
-        left: -2rem;
+    &__icon {
         height: 2.5rem;
         width: 2.5rem;
+        fill: $color-grey-3;
+        transition: 0.2s all ease-in-out;
+
+        &:hover {
+            fill: $color-white;
+
+            &:hover {
+                color: $color-white;
+                transform: scale(1.2);
+            }
+        }
     }
     &__support {
         height: 6rem;
@@ -142,10 +151,10 @@
             color: black;
         }
     }
-    &__btn-show {
+    &__btn-icon {
         position: absolute;
-        top: 2.2rem;
-        right: 1.5rem;
+        top: 2.3rem;
+        right: 2rem;
         z-index: 3;
         font-size: 8rem;
         line-height: 0;
@@ -155,6 +164,21 @@
         &--open {
             font-size: 4.5rem;
             font-weight: 500;
+            top: 50%;
+            left: 50%;
+            right: 0;
+            transform: translate(-50%, -50%);
+        }
+    }
+    &__minimize {
+        width: 2.5rem;
+        height: 0.7rem;
+        background-color: $color-grey-3;
+        transition: 0.2s all ease-in-out;
+
+        &:hover {
+            background-color: $color-white;
+            transform: scale(1.2);
         }
     }
 }
@@ -199,6 +223,7 @@
         color: $color-grey-6;
         padding-left: 1rem;
         text-transform: capitalize;
+        text-align: left;
 
         &--right {
             grid-column: 1 / 2;
