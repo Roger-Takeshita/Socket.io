@@ -53,11 +53,6 @@
 
         &:hover {
             fill: $color-white;
-
-            &:hover {
-                color: $color-white;
-                transform: scale(1.2);
-            }
         }
     }
     &__support {
@@ -180,6 +175,27 @@
             background-color: $color-white;
             transform: scale(1.2);
         }
+    }
+    &__icon-container {
+        position: relative;
+    }
+    &__icon-container:hover > &__counter {
+        background-color: $color-white;
+    }
+    &__counter {
+        position: absolute;
+        top: -1rem;
+        right: -0.75rem;
+        font-size: 1.1rem;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        color: red;
+        background-color: $color-grey-2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: 0.2s all ease-in-out;
     }
 }
 

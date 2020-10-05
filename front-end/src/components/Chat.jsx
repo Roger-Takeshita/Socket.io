@@ -12,6 +12,7 @@ import ChatIcon from './ChatIcon';
 function Chat() {
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
+    const [count, setCount] = useState(0);
     const [open, setOpen] = useState(true);
     const [users, setUsers] = useState([]);
     const [error, setError] = useState('');
@@ -122,7 +123,10 @@ function Chat() {
     }, []);
 
     useEffect(() => {
-        open && bottomChatRef.current.scrollIntoView({ block: 'end' });
+        setTimeout(() => {
+            open && bottomChatRef.current.scrollIntoView({ block: 'end' });
+        }, 150);
+        if (!open) setCount((oldState) => oldState + 1);
     }, [messages]);
 
     useEffect(() => {
@@ -151,8 +155,11 @@ function Chat() {
 
     const handleMinimize = () => {
         setOpen((oldState) => !oldState);
-        if (open) {
-            bottomChatRef.current.scrollIntoView({ block: 'end' });
+        if (!open) {
+            setCount(0);
+            setTimeout(() => {
+                !open && bottomChatRef.current.scrollIntoView({ block: 'end' });
+            }, 300);
         }
     };
 
@@ -172,7 +179,14 @@ function Chat() {
                             {open ? (
                                 <div className="chat__minimize"></div>
                             ) : (
-                                <ChatIcon className="chat__icon" />
+                                <div className="chat__icon-container">
+                                    <ChatIcon className="chat__icon" />
+                                    {!open && count > 0 && (
+                                        <div className="chat__counter">
+                                            {count}
+                                        </div>
+                                    )}
+                                </div>
                             )}
                         </div>
                         <h2
