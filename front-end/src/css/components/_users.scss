@@ -1,0 +1,15 @@
+.users {
+    margin-left: 1.5rem;
+
+    &__list-container {
+        margin-top: 0.5rem;
+    }
+    &__list {
+        list-style-type: none;
+    }
+    &__item {
+        &::before {
+            content: '- ';
+        }
+    }
+}
